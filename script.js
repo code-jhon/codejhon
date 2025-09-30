@@ -85,31 +85,94 @@ contactForm.addEventListener('submit', function(e) {
 
     // Simple validation
     if (!name || !email || !subject || !message) {
-        alert('Please fill in all fields.');
+        showFormMessage('Please fill in all fields.', 'error');
         return;
     }
 
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-        alert('Please enter a valid email address.');
+        showFormMessage('Please enter a valid email address.', 'error');
         return;
     }
 
-    // Simulate form submission
+    // Build WhatsApp message
+    const whatsappMessage = buildWhatsAppMessage(name, email, subject, message);
+
+    // WhatsApp phone number (using the number from contact info: +57 300 2685861)
+    const phoneNumber = '573002685861'; // Remove spaces and + for WhatsApp API
+
+    // Create WhatsApp URL
+    const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+
+    // Update submit button
     const submitBtn = this.querySelector('button[type="submit"]');
     const originalText = submitBtn.textContent;
-    submitBtn.textContent = 'Sending...';
+    submitBtn.textContent = 'Opening WhatsApp...';
     submitBtn.disabled = true;
 
-    // Simulate API call delay
-    setTimeout(() => {
-        alert('Thank you for your message! I\'ll get back to you soon.');
-        this.reset();
+    // Open WhatsApp in new tab
+    try {
+        window.open(whatsappURL, '_blank');
+
+        // Show success message and reset form
+        setTimeout(() => {
+            showFormMessage('WhatsApp opened! Your message is ready to send.', 'success');
+            this.reset();
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        }, 1000);
+    } catch (error) {
+        showFormMessage('Unable to open WhatsApp. Please try again or contact us directly at +57 300 2685861', 'error');
         submitBtn.textContent = originalText;
         submitBtn.disabled = false;
-    }, 2000);
+    }
 });
+
+// Build WhatsApp message with proper formatting
+function buildWhatsAppMessage(name, email, subject, message) {
+    return `Hello CodeJhon! 👋
+
+I'm reaching out through your website contact form.
+
+*Subject:* ${subject}
+
+*From:* ${name}
+*Email:* ${email}
+
+*Message:*
+${message}
+
+Thanks for your time! 😊
+
+---
+_Sent via CodeJhon website contact form_`;
+}
+
+// Show form messages with proper styling
+function showFormMessage(message, type) {
+    // Remove existing message if any
+    const existingMessage = document.querySelector('.form-message');
+    if (existingMessage) {
+        existingMessage.remove();
+    }
+
+    // Create message element
+    const messageElement = document.createElement('div');
+    messageElement.className = `form-message form-message-${type}`;
+    messageElement.textContent = message;
+
+    // Insert message before the form
+    const contactForm = document.querySelector('.contact-form');
+    contactForm.parentNode.insertBefore(messageElement, contactForm);
+
+    // Auto-remove message after 5 seconds
+    setTimeout(() => {
+        if (messageElement.parentNode) {
+            messageElement.remove();
+        }
+    }, 5000);
+}
 
 // Intersection Observer for animations
 const observerOptions = {
