@@ -162,11 +162,24 @@ body {
     height: 80px;
 }
 
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.nav-logo .logo-img {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+}
+
 .nav-logo h2 {
     color: var(--color-primary);
     font-weight: 800;
     font-size: 1.75rem;
     font-family: 'Lato', sans-serif;
+    margin: 0;
 }
 
 .nav-menu {
@@ -1096,6 +1109,23 @@ section {
 [data-theme="dark"] .service-card:hover,
 [data-theme="dark"] .testimonial-card:hover {
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Dark mode gradient overrides for tiles */
+[data-theme="dark"] .feature-item {
+    background: linear-gradient(135deg, var(--neutral-800) 0%, var(--neutral-700) 100%);
+}
+
+[data-theme="dark"] .tech-category {
+    background: linear-gradient(135deg, var(--neutral-800) 0%, var(--neutral-700) 100%);
+}
+
+[data-theme="dark"] .contact-form {
+    background: linear-gradient(135deg, var(--neutral-800) 0%, var(--neutral-700) 100%);
+}
+
+[data-theme="dark"] .code-content {
+    background: linear-gradient(135deg, var(--neutral-800) 0%, var(--neutral-700) 100%);
 }
 
 /* Responsive Design */

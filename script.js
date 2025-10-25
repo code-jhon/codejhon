@@ -26,6 +26,18 @@ themeToggle.addEventListener('click', () => {
     localStorage.setItem('theme', newTheme);
 
     themeToggle.innerHTML = newTheme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+
+    // Update navbar background based on scroll position and new theme
+    const navbar = document.querySelector('.navbar');
+    if (window.scrollY > 50) {
+        if (newTheme === 'dark') {
+            navbar.style.background = 'rgba(15, 23, 42, 0.95)';
+        } else {
+            navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+        }
+    } else {
+        navbar.style.background = '';
+    }
 });
 
 // Mobile Navigation Toggle
@@ -62,12 +74,18 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // Navbar background change on scroll
 window.addEventListener('scroll', () => {
     const navbar = document.querySelector('.navbar');
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+
     if (window.scrollY > 50) {
-        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+        if (currentTheme === 'dark') {
+            navbar.style.background = 'rgba(15, 23, 42, 0.95)';
+        } else {
+            navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+        }
         navbar.style.backdropFilter = 'blur(10px)';
     } else {
-        navbar.style.background = '#fff';
-        navbar.style.backdropFilter = 'none';
+        navbar.style.background = '';
+        navbar.style.backdropFilter = '';
     }
 });
 
