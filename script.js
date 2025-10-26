@@ -11,11 +11,13 @@ if (navContainer) {
 }
 
 // Theme management
-const currentTheme = localStorage.getItem('theme') || 'light';
+const currentTheme = localStorage.getItem('theme') || 'dark';
 document.documentElement.setAttribute('data-theme', currentTheme);
 
 if (currentTheme === 'dark') {
     themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+} else {
+    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
 }
 
 themeToggle.addEventListener('click', () => {
